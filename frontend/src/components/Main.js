@@ -25,21 +25,20 @@ const Main = ({ onEditProfile, onAddPlace, onEditAvatar, cards, onCardClick, onC
             <section className="elements">
                 <ul className="elements__grid">
                     if (!cards) {
-                        <h2>Тут будут ваши карточки</h2>
-                    } 
-                    {cards.map((card, key) => {
-                        return (<Card
-                            key={key}
-                            card={card}
-                            likes={card.likes.length}
-                            link={card.link}
-                            name={card.name}
-                            onCardClick={onCardClick}
-                            onCardLike={onCardLike}
-                            onCardDelete={onCardDelete}
-                        />)
-                    }
-                    )}
+                        cards.map((card, key) => {
+                            return (<Card
+                                key={key}
+                                card={card}
+                                likes={card.likes.length}
+                                link={card.link}
+                                name={card.name}
+                                onCardClick={onCardClick}
+                                onCardLike={onCardLike}
+                                onCardDelete={onCardDelete}
+                            />)
+                        }
+                        )
+                    } {<h2>Тут будут ваши карточки</h2>}
                 </ul>
             </section>
         </main>
