@@ -184,110 +184,113 @@ function App() {
 
   useEffect(() => {
     if (loggedIn) {
-    api
-      .getAll()
-      .then(([allCards, userData]) => {
-        setCards(allCards)
-        setCurrentUser(userData)
+      Promise.all([api.getUserInfo(), api.getCards()])
+      .then(resData => {
+        const [userData, cardList] = resData;
+        setCurrentUser(userData.data);
+        setCards(cardList.data.reverse());
       })
-      .catch((err) => console.log(err)) }
-  }, [loggedIn]);
+      .catch((err) => {
+        console.log(err);
+      })
+  }
+}, [loggedIn]);
 
 
-  useEffect(() => {
-    if (isEditProfilePopupOpen || isEditAvatarPopupOpen || isAddPlacePopupOpen || isImagePopupOpen || isInfoTooltipPopupOpen || selectedCard) {
-      function handleEsc(evt) {
-        if (evt.key === 'Escape') {
-          closeAllPopups();
-        }
-      }
-
-      document.addEventListener('keydown', handleEsc);
-
-      return () => {
-        document.removeEventListener('keydown', handleEsc);
+useEffect(() => {
+  if (isEditProfilePopupOpen || isEditAvatarPopupOpen || isAddPlacePopupOpen || isImagePopupOpen || isInfoTooltipPopupOpen || selectedCard) {
+    function handleEsc(evt) {
+      if (evt.key === 'Escape') {
+        closeAllPopups();
       }
     }
-  }, [isEditProfilePopupOpen, isEditAvatarPopupOpen, isAddPlacePopupOpen, isImagePopupOpen, isInfoTooltipPopupOpen, selectedCard]);
+
+    document.addEventListener('keydown', handleEsc);
+
+    return () => {
+      document.removeEventListener('keydown', handleEsc);
+    }
+  }
+}, [isEditProfilePopupOpen, isEditAvatarPopupOpen, isAddPlacePopupOpen, isImagePopupOpen, isInfoTooltipPopupOpen, selectedCard]);
 
 
-  return (
+return (
 
-    <CurrentUserContext.Provider value={currentUser}>
-      <div className="body">
-        <div className="page">
-          <Header
-            loggedIn={loggedIn}
-            onSignOut={handleSignOut}
-            userEmail={email} />
-          <Routes>
-            <Route
-              path="/"
-              element={
-                <>
-                  <ProtectedRoute
-                    component={Main}
-                    loggedIn={loggedIn}
-                    onEditProfile={handleEditProfileClick}
-                    onAddPlace={handleAddPlaceClick}
-                    onEditAvatar={handleEditAvatarClick}
-                    cards={cards}
-                    onCardClick={onCardClick}
-                    onCardLike={handleCardLike}
-                    onCardDelete={handleCardDelete}
-                  />
-                </>
-              }
-            />
-            <Route path='/sign-in'
-              element={<Login
-                onSubmit={handleLogin} />}
-            />
-            <Route path='/sign-up'
-              element={<Register onSubmit={handleRegister} />}
-            />
-          </Routes>
-          <Footer />
-          <AddPlacePopup
-            isOpen={isAddPlacePopupOpen}
-            onClose={closeAllPopups}
-            onCloseClick={handlePopupCloseClick}
-            onSubmit={handleAddPlaceSubmit}
+  <CurrentUserContext.Provider value={currentUser}>
+    <div className="body">
+      <div className="page">
+        <Header
+          loggedIn={loggedIn}
+          onSignOut={handleSignOut}
+          userEmail={email} />
+        <Routes>
+          <Route
+            path="/"
+            element={
+              <>
+                <ProtectedRoute
+                  component={Main}
+                  loggedIn={loggedIn}
+                  onEditProfile={handleEditProfileClick}
+                  onAddPlace={handleAddPlaceClick}
+                  onEditAvatar={handleEditAvatarClick}
+                  data={cards}
+                  onCardClick={onCardClick}
+                  onCardLike={handleCardLike}
+                  onCardDelete={handleCardDelete}
+                />
+              </>
+            }
           />
-          <EditAvatarPopup
-            isOpen={isEditAvatarPopupOpen}
-            onClose={closeAllPopups}
-            onCloseClick={handlePopupCloseClick}
-            onSubmit={handleUpdateAvatar}
+          <Route path='/sign-in'
+            element={<Login
+              onSubmit={handleLogin} />}
           />
-          <EditProfilePopup
-            isOpen={isEditProfilePopupOpen}
-            onClose={closeAllPopups}
-            onCloseClick={handlePopupCloseClick}
-            onSubmit={handleUpdateUser}
+          <Route path='/sign-up'
+            element={<Register onSubmit={handleRegister} />}
           />
-          {/* <PopupWithConfirm
+        </Routes>
+        <Footer />
+        <AddPlacePopup
+          isOpen={isAddPlacePopupOpen}
+          onClose={closeAllPopups}
+          onCloseClick={handlePopupCloseClick}
+          onSubmit={handleAddPlaceSubmit}
+        />
+        <EditAvatarPopup
+          isOpen={isEditAvatarPopupOpen}
+          onClose={closeAllPopups}
+          onCloseClick={handlePopupCloseClick}
+          onSubmit={handleUpdateAvatar}
+        />
+        <EditProfilePopup
+          isOpen={isEditProfilePopupOpen}
+          onClose={closeAllPopups}
+          onCloseClick={handlePopupCloseClick}
+          onSubmit={handleUpdateUser}
+        />
+        {/* <PopupWithConfirm
             isOpen={isConfirmPopupOpen}
             onClose={closeAllPopups}
             onCloseClick={handlePopupCloseClick}
           /> */}
-          <ImagePopup
-            isOpen={isImagePopupOpen}
-            onClose={closeAllPopups}
-            onCloseClick={handlePopupCloseClick}
-            card={selectedCard}
-          />
-          <InfoTooltip
-            isOpen={isInfoTooltipPopupOpen}
-            onClose={closeAllPopups}
-            onCloseClick={handlePopupCloseClick}
-            isSuccess={isSuccess}
-          />
-        </div>
+        <ImagePopup
+          isOpen={isImagePopupOpen}
+          onClose={closeAllPopups}
+          onCloseClick={handlePopupCloseClick}
+          card={selectedCard}
+        />
+        <InfoTooltip
+          isOpen={isInfoTooltipPopupOpen}
+          onClose={closeAllPopups}
+          onCloseClick={handlePopupCloseClick}
+          isSuccess={isSuccess}
+        />
       </div>
-    </CurrentUserContext.Provider>
+    </div>
+  </CurrentUserContext.Provider>
 
-  )
+)
 }
 
 export default App;
