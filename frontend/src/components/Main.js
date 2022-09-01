@@ -4,14 +4,14 @@ import { CurrentUserContext } from "../contexts/CurrentUserContext";
 
 const Main = ({ onEditProfile, onAddPlace, onEditAvatar, cards, onCardClick, onCardLike, onCardDelete }) => {
     const currentUser = React.useContext(CurrentUserContext);
-    
+
 
 
     return (
         <main>
             <section className="profile">
                 <div className="profile__avatar-container">
-                    <img src={currentUser.avatar} alt={currentUser.name} className="profile__avatar"/>
+                    <img src={currentUser.avatar} alt={currentUser.name} className="profile__avatar" />
                     <button type="button" className="profile__avatar-button" title="Изменить аватар" onClick={onEditAvatar}></button>
                 </div>
                 <div className="profile__info">
@@ -24,17 +24,19 @@ const Main = ({ onEditProfile, onAddPlace, onEditAvatar, cards, onCardClick, onC
             </section>
             <section className="elements">
                 <ul className="elements__grid">
-                    {cards.map((card, key) =>
-                        <Card
-                        key={key}
-                        card={card}
-                        likes={card.likes.length}
-                        link={card.link}
-                        name={card.name}
-                        onCardClick={onCardClick}
-                        onCardLike={onCardLike}
-                        onCardDelete={onCardDelete}
-                        />)}
+                    {cards.data.map((card, key) => {
+                        return (<Card
+                            key={key}
+                            card={card}
+                            likes={card.likes.length}
+                            link={card.link}
+                            name={card.name}
+                            onCardClick={onCardClick}
+                            onCardLike={onCardLike}
+                            onCardDelete={onCardDelete}
+                        />)
+                    }
+                    )}
                 </ul>
             </section>
         </main>
