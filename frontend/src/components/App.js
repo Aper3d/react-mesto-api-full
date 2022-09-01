@@ -69,7 +69,7 @@ function App() {
   };
 
   function handleCardLike(card) {
-    const isLiked = card.likes.some(i => i._id === currentUser._id);
+    const isLiked = card.likes.some((i) => i === currentUser._id);
     if (!isLiked) {
       api.like(card._id)
         .then((newCard) => {
@@ -96,7 +96,7 @@ function App() {
   function handleUpdateUser(data) {
     api.handleUserInfo(data)
       .then((newUser) => {
-        setCurrentUser(newUser);
+        setCurrentUser(newUser.data);
         closeAllPopups();
       })
       .catch((err) => console.error(err));
@@ -105,7 +105,7 @@ function App() {
   function handleUpdateAvatar(data) {
     api.handleUserAvatar(data)
       .then((newAvatar) => {
-        setCurrentUser(newAvatar);
+        setCurrentUser(newAvatar.data);
         closeAllPopups();
       })
       .catch((err) => console.error(err));
@@ -114,7 +114,7 @@ function App() {
   function handleAddPlaceSubmit(data) {
     api.addCard(data)
       .then((newCard) => {
-        setCards([newCard, ...cards]);
+        setCards([newCard.data, ...cards]);
         closeAllPopups();
       })
       .catch((err) => console.error(err));
