@@ -234,7 +234,7 @@ return (
                   onEditProfile={handleEditProfileClick}
                   onAddPlace={handleAddPlaceClick}
                   onEditAvatar={handleEditAvatarClick}
-                  data={cards}
+                  cards={cards}
                   onCardClick={onCardClick}
                   onCardLike={handleCardLike}
                   onCardDelete={handleCardDelete}
