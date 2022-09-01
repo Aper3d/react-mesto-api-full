@@ -1,4 +1,4 @@
-export const BASE_URL = 'https://api.legion3d.nomoredomains.sbs.nomoredomains.sbs';
+export const BASE_URL = 'https://legion_3d.students.nomoredomainssbs.ru';
 
 const checkRes = (res) => {
     if (res.ok) {

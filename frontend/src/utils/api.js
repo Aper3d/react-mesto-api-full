@@ -1,11 +1,8 @@
 class Api {
-    constructor(options) {
-        this._url = options.url
-        this._headers = {
-            authorization: options.authorization,
-            'Content-Type': 'application/json'
-        }
+    constructor({ url }) {
+        this._url = url
     }
+
 
     _checkRes(res) {
         if (res.ok) {
@@ -17,7 +14,9 @@ class Api {
     getUserInfo() {
         return fetch(`${this._url}/users/me`, {
             method: 'GET',
-            headers: this._headers
+            headers: {
+                authorization: this.getToken(),
+            }
         })
             .then(this._checkRes)
     }
@@ -25,7 +24,9 @@ class Api {
     getCards() {
         return fetch(`${this._url}/cards`, {
             method: 'GET',
-            headers: this._headers
+            headers: {
+                authorization: this.getToken(),
+            }
         })
             .then(this._checkRes)
     }
@@ -33,7 +34,10 @@ class Api {
     handleUserInfo(userData) {
         return fetch(`${this._url}/users/me`, {
             method: 'PATCH',
-            headers: this._headers,
+            headers: {
+                'Content-Type': 'application/json',
+                authorization: this.getToken(),
+            },
             body: JSON.stringify({
                 name: userData.userName,
                 about: userData.userDescription
@@ -44,7 +48,10 @@ class Api {
     handleUserAvatar(data) {
         return fetch(`${this._url}/users/me/avatar`, {
             method: 'PATCH',
-            headers: this._headers,
+            headers: {
+                'Content-Type': 'application/json',
+                authorization: this.getToken(),
+            },
             body: JSON.stringify({
                 avatar: data.userAvatar,
             })
@@ -55,7 +62,10 @@ class Api {
     addCard(data) {
         return fetch(`${this._url}/cards`, {
             method: 'POST',
-            headers: this._headers,
+            headers: {
+                'Content-Type': 'application/json',
+                authorization: this.getToken(),
+            },
             body: JSON.stringify({
                 name: data.name,
                 link: data.link
@@ -67,7 +77,10 @@ class Api {
     like(id) {
         return fetch(`${this._url}/cards/likes/${id}`, {
             method: 'PUT',
-            headers: this._headers
+            headers: {
+                'Content-Type': 'application/json',
+                authorization: this.getToken(),
+            },
         })
             .then(this._checkRes)
     }
@@ -75,7 +88,10 @@ class Api {
     dislike(id) {
         return fetch(`${this._url}/cards/likes/${id}`, {
             method: 'DELETE',
-            headers: this._headers
+            headers: {
+                'Content-Type': 'application/json',
+                authorization: this.getToken(),
+            },
         })
             .then(this._checkRes)
     }
@@ -83,11 +99,17 @@ class Api {
     delete(id) {
         return fetch(`${this._url}/cards/${id}`, {
             method: 'DELETE',
-            headers: this._headers
+            headers: {
+                'Content-Type': 'application/json',
+                authorization: this.getToken(),
+            },
         })
             .then(this._checkRes)
     }
 
+    getToken() {
+        return `Bearer ${localStorage.getItem('token')}`
+    }
 
 
     getAll() {
@@ -96,8 +118,7 @@ class Api {
 }
 
 const api = new Api({
-    url: 'https://api.legion3d.nomoredomains.sbs.nomoredomains.sbs',
-    authorization: '934e43d4-85e6-4765-9a22-cf738085b2b0'
+    url: 'https://legion_3d.students.nomoredomainssbs.ru'
 })
 
 export default api;
