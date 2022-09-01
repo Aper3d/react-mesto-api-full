@@ -1,4 +1,8 @@
-export const BASE_URL = 'https://legion_3d.students.nomoredomainssbs.ru';
+export const BASE_URL = 'https://api.legion3d.students.nomoredomainssbs.ru';
+const HEADERS = {
+    'Accept': 'application/json',
+    'Content-Type': 'application/json'
+}
 
 const checkRes = (res) => {
     if (res.ok) {
@@ -10,9 +14,7 @@ const checkRes = (res) => {
 export const register = ({ password, email }) => {
     return fetch(`${BASE_URL}/signup`, {
         method: 'POST',
-        headers: {
-            "Content-Type": "application/json"
-        },
+        headers: HEADERS,
         body: JSON.stringify({
             "password": password,
             "email": email
@@ -24,9 +26,7 @@ export const register = ({ password, email }) => {
 export const authorize = ({ password, email }) => {
     return fetch(`${BASE_URL}/signin`, {
         method: 'POST',
-        headers: {
-            "Content-Type": "application/json"
-        },
+        headers: HEADERS,
         body: JSON.stringify({
             "password": password,
             "email": email
@@ -39,8 +39,8 @@ export const checkToken = (token) => {
     return fetch(`${BASE_URL}/users/me`, {
         method: 'GET',
         headers: {
-            "Content-Type": "application/json",
-            "Authorization": `Bearer ${token}`
+            ...HEADERS,
+            'Authorization': `Bearer ${token}`
         }
     })
         .then(checkRes)

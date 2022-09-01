@@ -118,7 +118,7 @@ class Api {
 }
 
 const api = new Api({
-    url: 'https://legion_3d.students.nomoredomainssbs.ru'
+    url: 'https://api.legion3d.students.nomoredomainssbs.ru'
 })
 
 export default api;
