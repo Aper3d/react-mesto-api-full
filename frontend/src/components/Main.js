@@ -24,13 +24,9 @@ const Main = ({ onEditProfile, onAddPlace, onEditAvatar, cards, onCardClick, onC
             </section>
             <section className="elements">
                 <ul className="elements__grid">
-                    {cards.map((card, key) => {
+                    {cards.map((card) => {
                         return (<Card
-                            key={key}
                             card={card}
-                            likes={card.likes.length}
-                            link={card.link}
-                            name={card.name}
                             onCardClick={onCardClick}
                             onCardLike={onCardLike}
                             onCardDelete={onCardDelete}
