@@ -1,6 +1,6 @@
 # react-mesto-api-full
 
-Ссылка на проект: https://api.legion3d.students.nomoredomainssbs.ru
+Ссылка на проект: https://legion3d.students.nomoredomainssbs.ru
 API: https://api.legion3d.students.nomoredomainssbs.ru
 
 
