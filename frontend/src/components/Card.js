@@ -2,11 +2,11 @@ import React from "react";
 import { CurrentUserContext } from "../contexts/CurrentUserContext";
 
 
-function Card( {card, onCardClick, onCardLike, onCardDelete }) {
+function Card( {card, onCardClick, onCardLike, onCardDelete } ) {
     const currentUser = React.useContext(CurrentUserContext);
 
     const isOwn = card.owner === currentUser._id;
-    const isLiked = card.likes.some((i) => i === currentUser._id);
+    const isLiked = card.likes.some((i) => i === currentUser._id)
 
     const cardDeleteButtonClassName = (
         `element__delete-button hover ${isOwn ? 'element__delete-button_visible' : 'element__delete-button_hidden'}`
@@ -27,7 +27,7 @@ function Card( {card, onCardClick, onCardLike, onCardDelete }) {
     }
 
     return (
-        <li className="element">
+        <li className="element" key={card._id}>
             <button className={cardDeleteButtonClassName} type="button" aria-label="Удалить" onClick={handleCardDelete}/>
             <img src={card.link} alt={card.name} className="element__photo" onClick={handleCardClick} />
             <div className="element__container">

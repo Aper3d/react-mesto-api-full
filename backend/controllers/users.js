@@ -3,6 +3,7 @@ const jwt = require('jsonwebtoken');
 const User = require('../models/user');
 const NotFoundError = require('../errors/NotFoundError');
 const ConflictError = require('../errors/ConflictError');
+const ValidationError = require('../errors/ValidationError');
 
 const { JWT_SECRET = 'JWT_SECRET' } = process.env;
 
@@ -61,8 +62,11 @@ module.exports.createUser = (req, res, next) => {
       if (err.code === 11000) {
         next(new ConflictError('Пользователь уже существует'));
         return;
+      } if (err.name === 'ValidationError') {
+        next(new ValidationError('Переданны некорректные данные'));
+      } else {
+        next(err);
       }
-      next(err);
     });
 };
 
@@ -73,8 +77,14 @@ module.exports.updateUserProfile = (req, res, next) => {
     { name, about },
     { new: true, runValidators: true },
   )
-    .then((user) => res.send({ user }))
-    .catch(next);
+    .then((user) => res.send(user))
+    .catch((err) => {
+      if (err.name === 'ValidationError') {
+        next(new ValidationError('Переданны некорректные данные'));
+      } else {
+        next(err);
+      }
+    });
 };
 
 module.exports.updateUserAvatar = (req, res, next) => {
@@ -84,8 +94,14 @@ module.exports.updateUserAvatar = (req, res, next) => {
     { avatar },
     { new: true, runValidators: true },
   )
-    .then((user) => res.send({ user }))
-    .catch(next);
+    .then((user) => res.send(user))
+    .catch((err) => {
+      if (err.name === 'ValidationError') {
+        next(new ValidationError('Переданны некорректные данные'));
+      } else {
+        next(err);
+      }
+    });
 };
 
 module.exports.login = (req, res, next) => {

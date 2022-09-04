@@ -27,6 +27,7 @@ const Main = ({ onEditProfile, onAddPlace, onEditAvatar, cards, onCardClick, onC
                     {cards.map((card) => {
                         return (<Card
                             card={card}
+                            key={card._id}
                             onCardClick={onCardClick}
                             onCardLike={onCardLike}
                             onCardDelete={onCardDelete}

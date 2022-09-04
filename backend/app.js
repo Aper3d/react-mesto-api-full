@@ -20,7 +20,7 @@ mongoose.connect('mongodb://localhost:27017/mestodb', {
 });
 
 app.use(cors({
-  Origin: 'https://legion3d.students.nomoredomainssbs.ru/',
+  Origin: 'https://legion3d.students.nomoredomainssbs.ru/ http://localhost:3001/',
 }));
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
